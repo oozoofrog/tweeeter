@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		056E43F6296AD0711E5D26B9 /* Pods_TweeeterUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C324B8674D51EF3E07DAA96 /* Pods_TweeeterUITests.framework */; };
-		4128172821C4C5C2004285E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4128172721C4C5C2004285E6 /* AppDelegate.swift */; };
 		4128172A21C4C5C2004285E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4128172921C4C5C2004285E6 /* ViewController.swift */; };
 		4128172D21C4C5C2004285E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4128172B21C4C5C2004285E6 /* Main.storyboard */; };
 		4128173021C4C5C2004285E6 /* Tweeeter.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4128172E21C4C5C2004285E6 /* Tweeeter.xcdatamodeld */; };
@@ -35,6 +34,8 @@
 		4172882121C560A400A7F6B8 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4136603121C5483F00D1BDC7 /* Tweet.swift */; };
 		4172882221C560BF00A7F6B8 /* Model.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4172880221C5607C00A7F6B8 /* Model.framework */; };
 		4172882321C5613000A7F6B8 /* Decodable+DefaultDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4136602D21C511E600D1BDC7 /* Decodable+DefaultDecoder.swift */; };
+		4172882621C5648C00A7F6B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4128172721C4C5C2004285E6 /* AppDelegate.swift */; };
+		4172882A21C5669F00A7F6B8 /* TweetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172882921C5669F00A7F6B8 /* TweetsViewModel.swift */; };
 		5A8BFB95B7FA2BD8D55AF5F3 /* Pods_Tweeeter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB252D9BB51567CA840EE1DC /* Pods_Tweeeter.framework */; };
 		6F666B8D0C21899102B8D4EC /* Pods_TweeeterTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B3E070B47CBBC9D244BE5 /* Pods_TweeeterTests.framework */; };
 		9C4CC1F611210A1658EA2B2F /* Pods_APITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F5D7ACB8EC35136FE082A0 /* Pods_APITests.framework */; };
@@ -139,6 +140,7 @@
 		4172880221C5607C00A7F6B8 /* Model.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Model.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4172880421C5607C00A7F6B8 /* Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		4172880521C5607C00A7F6B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4172882921C5669F00A7F6B8 /* TweetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetsViewModel.swift; sourceTree = "<group>"; };
 		41F5D7ACB8EC35136FE082A0 /* Pods_APITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_APITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D81E844AAC892ABECBCC0C2 /* Pods-TweeeterUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TweeeterUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TweeeterUITests/Pods-TweeeterUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BBFC9614CF87931FDAC2E1C9 /* Pods-TweeeterUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TweeeterUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TweeeterUITests/Pods-TweeeterUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -248,14 +250,10 @@
 		4128172621C4C5C2004285E6 /* Tweeeter */ = {
 			isa = PBXGroup;
 			children = (
+				4172882721C564C500A7F6B8 /* Feature */,
 				4136606321C55B3400D1BDC7 /* Helper */,
+				4172882421C5647500A7F6B8 /* Supporting Files */,
 				4128172721C4C5C2004285E6 /* AppDelegate.swift */,
-				4128172921C4C5C2004285E6 /* ViewController.swift */,
-				4128172B21C4C5C2004285E6 /* Main.storyboard */,
-				4128173121C4C5C4004285E6 /* Assets.xcassets */,
-				4128173321C4C5C4004285E6 /* LaunchScreen.storyboard */,
-				4128173621C4C5C4004285E6 /* Info.plist */,
-				4128172E21C4C5C2004285E6 /* Tweeeter.xcdatamodeld */,
 			);
 			path = Tweeeter;
 			sourceTree = "<group>";
@@ -360,6 +358,35 @@
 				4172880521C5607C00A7F6B8 /* Info.plist */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		4172882421C5647500A7F6B8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4128172B21C4C5C2004285E6 /* Main.storyboard */,
+				4128173321C4C5C4004285E6 /* LaunchScreen.storyboard */,
+				4128173121C4C5C4004285E6 /* Assets.xcassets */,
+				4128173621C4C5C4004285E6 /* Info.plist */,
+				4128172E21C4C5C2004285E6 /* Tweeeter.xcdatamodeld */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4172882721C564C500A7F6B8 /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				4172882821C564D500A7F6B8 /* Tweets */,
+			);
+			path = Feature;
+			sourceTree = "<group>";
+		};
+		4172882821C564D500A7F6B8 /* Tweets */ = {
+			isa = PBXGroup;
+			children = (
+				4128172921C4C5C2004285E6 /* ViewController.swift */,
+				4172882921C5669F00A7F6B8 /* TweetsViewModel.swift */,
+			);
+			path = Tweets;
 			sourceTree = "<group>";
 		};
 		E8623D070F38EEB707F9B55E /* Frameworks */ = {
@@ -814,10 +841,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4172882621C5648C00A7F6B8 /* AppDelegate.swift in Sources */,
 				4136606821C55B5700D1BDC7 /* APIRequestBuilder+Rx.swift in Sources */,
+				4172882A21C5669F00A7F6B8 /* TweetsViewModel.swift in Sources */,
 				4128173021C4C5C2004285E6 /* Tweeeter.xcdatamodeld in Sources */,
 				4128172A21C4C5C2004285E6 /* ViewController.swift in Sources */,
-				4128172821C4C5C2004285E6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1047,7 +1075,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = Tweeeter/Info.plist;
+				INFOPLIST_FILE = "Tweeeter/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1068,7 +1096,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = Tweeeter/Info.plist;
+				INFOPLIST_FILE = "Tweeeter/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
