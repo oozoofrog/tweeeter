@@ -9,10 +9,10 @@
 import Foundation
 
 public struct AccessToken: Decodable {
-    enum TokenType: String, Decodable {
+    public enum TokenType: String, Decodable {
         case bearer
     }
 
-    var tokenType: TokenType
-    var accessToken: String
+    public var tokenType: TokenType
+    public var accessToken: String
 }

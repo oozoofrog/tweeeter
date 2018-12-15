@@ -9,9 +9,9 @@
 import Foundation
 
 public struct Tweet: Codable {
-    let idStr: String
-    let id: Date
-    let text: String
-    let createdAt: String
-    let truncated: Bool
+    public let idStr: String
+    public let id: Date
+    public let text: String
+    public let createdAt: String
+    public let truncated: Bool
 }

@@ -9,6 +9,7 @@
 import XCTest
 import Quick
 import Nimble
+import Model
 @testable import API
 
 class AuthenticationSpec: QuickSpec {

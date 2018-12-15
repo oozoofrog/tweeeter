@@ -23,14 +23,18 @@
 		4136604E21C5541F00D1BDC7 /* API.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4136603821C5541F00D1BDC7 /* API.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4136605521C554E600D1BDC7 /* ClientCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41365FDE21C4F69F00D1BDC7 /* ClientCredential.swift */; };
 		4136605621C554E600D1BDC7 /* AccessTokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4136602121C4FFCF00D1BDC7 /* AccessTokenProvider.swift */; };
-		4136605721C554E600D1BDC7 /* AccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4136602821C50DE700D1BDC7 /* AccessToken.swift */; };
-		4136605821C554E600D1BDC7 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4136603121C5483F00D1BDC7 /* Tweet.swift */; };
-		4136605921C554E600D1BDC7 /* Decodable+DefaultDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4136602D21C511E600D1BDC7 /* Decodable+DefaultDecoder.swift */; };
 		4136605A21C554E600D1BDC7 /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4136602421C504DE00D1BDC7 /* APIConfiguration.swift */; };
 		4136605B21C554E600D1BDC7 /* APIRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4136601F21C4FEA400D1BDC7 /* APIRequestBuilder.swift */; };
 		4136605C21C554E600D1BDC7 /* OAuthRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4136602F21C527C900D1BDC7 /* OAuthRequestBuilder.swift */; };
 		4136605D21C5550100D1BDC7 /* AuthenticationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4136601C21C4FD3A00D1BDC7 /* AuthenticationSpec.swift */; };
 		4136606821C55B5700D1BDC7 /* APIRequestBuilder+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4136606721C55B5700D1BDC7 /* APIRequestBuilder+Rx.swift */; };
+		4172881421C5607C00A7F6B8 /* Model.h in Headers */ = {isa = PBXBuildFile; fileRef = 4172880421C5607C00A7F6B8 /* Model.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4172881721C5607C00A7F6B8 /* Model.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4172880221C5607C00A7F6B8 /* Model.framework */; };
+		4172881821C5607C00A7F6B8 /* Model.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4172880221C5607C00A7F6B8 /* Model.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4172882021C560A100A7F6B8 /* AccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4136602821C50DE700D1BDC7 /* AccessToken.swift */; };
+		4172882121C560A400A7F6B8 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4136603121C5483F00D1BDC7 /* Tweet.swift */; };
+		4172882221C560BF00A7F6B8 /* Model.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4172880221C5607C00A7F6B8 /* Model.framework */; };
+		4172882321C5613000A7F6B8 /* Decodable+DefaultDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4136602D21C511E600D1BDC7 /* Decodable+DefaultDecoder.swift */; };
 		5A8BFB95B7FA2BD8D55AF5F3 /* Pods_Tweeeter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB252D9BB51567CA840EE1DC /* Pods_Tweeeter.framework */; };
 		6F666B8D0C21899102B8D4EC /* Pods_TweeeterTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B3E070B47CBBC9D244BE5 /* Pods_TweeeterTests.framework */; };
 		9C4CC1F611210A1658EA2B2F /* Pods_APITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F5D7ACB8EC35136FE082A0 /* Pods_APITests.framework */; };
@@ -72,6 +76,13 @@
 			remoteGlobalIDString = 4136603721C5541F00D1BDC7;
 			remoteInfo = API;
 		};
+		4172881521C5607C00A7F6B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4128171C21C4C5C2004285E6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4172880121C5607C00A7F6B8;
+			remoteInfo = Model;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -81,6 +92,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				4172881821C5607C00A7F6B8 /* Model.framework in Embed Frameworks */,
 				4136604E21C5541F00D1BDC7 /* API.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -124,6 +136,9 @@
 		4136604721C5541F00D1BDC7 /* APITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITests.swift; sourceTree = "<group>"; };
 		4136604921C5541F00D1BDC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4136606721C55B5700D1BDC7 /* APIRequestBuilder+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIRequestBuilder+Rx.swift"; sourceTree = "<group>"; };
+		4172880221C5607C00A7F6B8 /* Model.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Model.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4172880421C5607C00A7F6B8 /* Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		4172880521C5607C00A7F6B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		41F5D7ACB8EC35136FE082A0 /* Pods_APITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_APITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D81E844AAC892ABECBCC0C2 /* Pods-TweeeterUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TweeeterUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TweeeterUITests/Pods-TweeeterUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BBFC9614CF87931FDAC2E1C9 /* Pods-TweeeterUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TweeeterUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TweeeterUITests/Pods-TweeeterUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -139,6 +154,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A8BFB95B7FA2BD8D55AF5F3 /* Pods_Tweeeter.framework in Frameworks */,
+				4172881721C5607C00A7F6B8 /* Model.framework in Frameworks */,
 				4136604D21C5541F00D1BDC7 /* API.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -163,6 +179,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4172882221C560BF00A7F6B8 /* Model.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +189,13 @@
 			files = (
 				4136604121C5541F00D1BDC7 /* API.framework in Frameworks */,
 				9C4CC1F611210A1658EA2B2F /* Pods_APITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		417287FF21C5607C00A7F6B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,6 +225,7 @@
 				4128174921C4C5C4004285E6 /* TweeeterUITests */,
 				4136603921C5541F00D1BDC7 /* API */,
 				4136604621C5541F00D1BDC7 /* APITests */,
+				4172880321C5607C00A7F6B8 /* Model */,
 				4128172521C4C5C2004285E6 /* Products */,
 				27E717840D7721EC92802DEA /* Pods */,
 				E8623D070F38EEB707F9B55E /* Frameworks */,
@@ -215,6 +240,7 @@
 				4128174621C4C5C4004285E6 /* TweeeterUITests.xctest */,
 				4136603821C5541F00D1BDC7 /* API.framework */,
 				4136604021C5541F00D1BDC7 /* APITests.xctest */,
+				4172880221C5607C00A7F6B8 /* Model.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -267,6 +293,7 @@
 				4136602321C5048C00D1BDC7 /* Configuration */,
 				4136601F21C4FEA400D1BDC7 /* APIRequestBuilder.swift */,
 				4136602F21C527C900D1BDC7 /* OAuthRequestBuilder.swift */,
+				4136602D21C511E600D1BDC7 /* Decodable+DefaultDecoder.swift */,
 			);
 			path = RestAPI;
 			sourceTree = "<group>";
@@ -277,15 +304,6 @@
 				4136602421C504DE00D1BDC7 /* APIConfiguration.swift */,
 			);
 			path = Configuration;
-			sourceTree = "<group>";
-		};
-		4136602621C50DD400D1BDC7 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				4136602C21C50EC100D1BDC7 /* Response */,
-				4136602D21C511E600D1BDC7 /* Decodable+DefaultDecoder.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		4136602C21C50EC100D1BDC7 /* Response */ = {
@@ -301,7 +319,6 @@
 			isa = PBXGroup;
 			children = (
 				4136600321C4F72100D1BDC7 /* Authentication */,
-				4136602621C50DD400D1BDC7 /* Model */,
 				4136601E21C4FDF600D1BDC7 /* RestAPI */,
 				4136603A21C5541F00D1BDC7 /* API.h */,
 				4136603B21C5541F00D1BDC7 /* Info.plist */,
@@ -335,6 +352,16 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		4172880321C5607C00A7F6B8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4136602C21C50EC100D1BDC7 /* Response */,
+				4172880421C5607C00A7F6B8 /* Model.h */,
+				4172880521C5607C00A7F6B8 /* Info.plist */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		E8623D070F38EEB707F9B55E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -357,6 +384,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		417287FD21C5607C00A7F6B8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4172881421C5607C00A7F6B8 /* Model.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -376,6 +411,7 @@
 			);
 			dependencies = (
 				4136604C21C5541F00D1BDC7 /* PBXTargetDependency */,
+				4172881621C5607C00A7F6B8 /* PBXTargetDependency */,
 			);
 			name = Tweeeter;
 			productName = Tweeeter;
@@ -460,6 +496,24 @@
 			productReference = 4136604021C5541F00D1BDC7 /* APITests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		4172880121C5607C00A7F6B8 /* Model */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4172881D21C5607C00A7F6B8 /* Build configuration list for PBXNativeTarget "Model" */;
+			buildPhases = (
+				417287FD21C5607C00A7F6B8 /* Headers */,
+				417287FE21C5607C00A7F6B8 /* Sources */,
+				417287FF21C5607C00A7F6B8 /* Frameworks */,
+				4172880021C5607C00A7F6B8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Model;
+			productName = Model;
+			productReference = 4172880221C5607C00A7F6B8 /* Model.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -488,6 +542,9 @@
 						CreatedOnToolsVersion = 10.1;
 						TestTargetID = 4128172321C4C5C2004285E6;
 					};
+					4172880121C5607C00A7F6B8 = {
+						CreatedOnToolsVersion = 10.1;
+					};
 				};
 			};
 			buildConfigurationList = 4128171F21C4C5C2004285E6 /* Build configuration list for PBXProject "Tweeeter" */;
@@ -508,6 +565,7 @@
 				4128174521C4C5C4004285E6 /* TweeeterUITests */,
 				4136603721C5541F00D1BDC7 /* API */,
 				4136603F21C5541F00D1BDC7 /* APITests */,
+				4172880121C5607C00A7F6B8 /* Model */,
 			);
 		};
 /* End PBXProject section */
@@ -545,6 +603,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4136603E21C5541F00D1BDC7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4172880021C5607C00A7F6B8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -779,11 +844,9 @@
 				4136605621C554E600D1BDC7 /* AccessTokenProvider.swift in Sources */,
 				4136605A21C554E600D1BDC7 /* APIConfiguration.swift in Sources */,
 				4136605521C554E600D1BDC7 /* ClientCredential.swift in Sources */,
-				4136605721C554E600D1BDC7 /* AccessToken.swift in Sources */,
 				4136605B21C554E600D1BDC7 /* APIRequestBuilder.swift in Sources */,
+				4172882321C5613000A7F6B8 /* Decodable+DefaultDecoder.swift in Sources */,
 				4136605C21C554E600D1BDC7 /* OAuthRequestBuilder.swift in Sources */,
-				4136605921C554E600D1BDC7 /* Decodable+DefaultDecoder.swift in Sources */,
-				4136605821C554E600D1BDC7 /* Tweet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -793,6 +856,15 @@
 			files = (
 				4136605D21C5550100D1BDC7 /* AuthenticationSpec.swift in Sources */,
 				4136604821C5541F00D1BDC7 /* APITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		417287FE21C5607C00A7F6B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4172882121C560A400A7F6B8 /* Tweet.swift in Sources */,
+				4172882021C560A100A7F6B8 /* AccessToken.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -823,6 +895,11 @@
 			isa = PBXTargetDependency;
 			target = 4136603721C5541F00D1BDC7 /* API */;
 			targetProxy = 4136604B21C5541F00D1BDC7 /* PBXContainerItemProxy */;
+		};
+		4172881621C5607C00A7F6B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4172880121C5607C00A7F6B8 /* Model */;
+			targetProxy = 4172881521C5607C00A7F6B8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -966,6 +1043,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C3CFBA4BAAFC7F31217C8141 /* Pods-Tweeeter.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
@@ -986,6 +1064,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E7DA09231B26A39E726F34ED /* Pods-Tweeeter.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
@@ -1178,6 +1257,62 @@
 			};
 			name = Release;
 		};
+		4172881921C5607C00A7F6B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Model/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nostalgia.Model;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		4172881A21C5607C00A7F6B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Model/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nostalgia.Model;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1231,6 +1366,15 @@
 			buildConfigurations = (
 				4136605321C5542000D1BDC7 /* Debug */,
 				4136605421C5542000D1BDC7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4172881D21C5607C00A7F6B8 /* Build configuration list for PBXNativeTarget "Model" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4172881921C5607C00A7F6B8 /* Debug */,
+				4172881A21C5607C00A7F6B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Model
 
 public final class OAuthRequestBuilder: APIRequestBuilder {
 
