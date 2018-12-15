@@ -70,6 +70,7 @@ public protocol URLRequestCreatable {
 }
 
 public struct OAuthRequestCreator: URLRequestCreatable {
+    public init() {}
     public func createRequest(configuration: APIConfiguration, url: URL) throws -> URLRequest {
         var request: URLRequest = URLRequest(url: url)
         request.addValue("Tweeeter_iOS_v1.0", forHTTPHeaderField: "User-Agent")
@@ -81,6 +82,7 @@ public struct OAuthRequestCreator: URLRequestCreatable {
 }
 
 public struct CommonRequestCreator: URLRequestCreatable {
+    public init() {}
     public func createRequest(configuration: APIConfiguration, url: URL) throws -> URLRequest {
         guard let accessToken = configuration.accessTokenProvider.accessToken else {
             throw APIRequestError.needAuthentication
@@ -98,20 +100,19 @@ public class APIRequestBuilder: APIRequestBuildable {
     public let configuration: APIConfiguration
     public let method: Method
     public let api: API
-    let apiVersion: String?
+    public let apiVersion: String?
     public let path: String
     public let parameters: [String: Any]?
-
     private let requestCreator: URLRequestCreatable
 
-    init(configuration: APIConfiguration = .default,
-         requestCreator: URLRequestCreatable = CommonRequestCreator(),
-         method: Method = .get,
-         api: API = .api,
-         apiVersion: String? = "1.1",
-         path: String,
-         parameters: [String: Any]? = nil) {
-        self.configuration = configuration
+    public init(configuration: APIConfiguration? = nil,
+                requestCreator: URLRequestCreatable = CommonRequestCreator(),
+                method: Method = .get,
+                api: API = .api,
+                apiVersion: String? = "1.1",
+                path: String,
+                parameters: [String: Any]? = nil) {
+        self.configuration = configuration ?? APIConfiguration.default
         self.requestCreator = requestCreator
         self.method = method
         self.api = api
@@ -120,7 +121,7 @@ public class APIRequestBuilder: APIRequestBuildable {
         self.parameters = parameters
     }
 
-    func createURL() -> URL {
+    public func createURL() -> URL {
         guard let baseURL: URL = URL(string: api.rawValue) else { fatalError() }
         var url = baseURL
         if let version = apiVersion {

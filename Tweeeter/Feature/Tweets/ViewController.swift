@@ -8,6 +8,10 @@
 
 import UIKit
 import SnapKit
+import API
+import Model
+import RxSwift
+import RxCocoa
 
 class ViewController: UIViewController {
 
@@ -40,7 +44,6 @@ class ViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
     }
 
 }

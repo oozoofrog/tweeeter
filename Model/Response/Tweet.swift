@@ -8,10 +8,27 @@
 
 import Foundation
 
-public struct Tweet: Codable {
-    public let idStr: String
-    public let id: Date
+public struct Tweet: Codable, Equatable {
+
+    public let id: UInt64
+
+    public let user: User
+
+    public let favoriteCount: UInt64?
+
     public let text: String
     public let createdAt: String
-    public let truncated: Bool
+
+}
+
+public struct User: Codable, Equatable {
+
+    public let id: UInt64
+    public let profileImageUrlHttps: URL?
+
+    public let url: URL?
+    public let name: String
+    public let screenName: String
+    public let description: String
+
 }

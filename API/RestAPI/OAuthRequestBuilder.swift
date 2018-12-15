@@ -11,7 +11,7 @@ import Model
 
 public final class OAuthRequestBuilder: APIRequestBuilder {
 
-    init(configuration: APIConfiguration = APIConfiguration.default) {
+    public init(configuration: APIConfiguration? = nil) {
         super.init(configuration: configuration,
                    requestCreator: OAuthRequestCreator(),
                    method: .post,
@@ -19,7 +19,7 @@ public final class OAuthRequestBuilder: APIRequestBuilder {
                    path: "oauth2/token")
     }
 
-    func request(_ completion: @escaping (AccessToken?, APIRequestError?) -> Void) {
+    public func request(_ completion: @escaping (AccessToken?, APIRequestError?) -> Void) {
         return requestResult(AccessToken.self, completion: { (accessToken, error) in
             if self.configuration.requestAccessTokenIfNeeded == true, let token = accessToken?.accessToken {
                 self.configuration.accessTokenProvider.setAccessToken(token)
