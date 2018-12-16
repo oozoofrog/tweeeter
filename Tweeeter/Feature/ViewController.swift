@@ -114,25 +114,6 @@ extension ViewController {
             })
             .disposed(by: disposeBag)
 
-        guard let resultController = searchViewHolder.resultController else { return }
-        guard let searchController = navigationItem.searchController else { return }
-
-        let resultViewModel = resultController.viewModel
-        searchController.searchBar.rx.text
-            .filter({ _ in searchController.isActive })
-            .map { $0 ?? "" }
-            .distinctUntilChanged()
-            .throttle(0.5, scheduler: MainScheduler.asyncInstance)
-            .bind(to: resultViewModel.inputs.screenName)
-            .disposed(by: disposeBag)
-
-        searchController.rx.willPresent
-            .subscribe(onNext: { [weak resultController, weak self] _ in
-                resultController?.rebind()
-                resultController?.setScreenName(searchController.searchBar.text ?? "neko")
-                resultController?.setTweets(self?.viewModel?.outputs.tweets.value ?? [])
-            })
-            .disposed(by: disposeBag)
     }
 
 }
@@ -187,24 +168,34 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension ViewController {
+extension ViewController: UISearchResultsUpdating, SearchUserViewDelegate {
 
     final class SearchViewHolder {
 
-        var resultController: TweetsViewController?
+        lazy var resultController: SearchUserViewController = SearchUserViewController()
 
         func install(_ viewController: ViewController) {
-            let resultController = TweetsViewController()
+
+            resultController.delegate = viewController
             let searchController = UISearchController(searchResultsController: resultController)
             searchController.searchBar.placeholder = "트위터 사용자 이름 입력"
+            searchController.searchResultsUpdater = viewController
+
             viewController.navigationItem.searchController = searchController
 
             searchController.definesPresentationContext = false
             viewController.definesPresentationContext = true
-
-            self.resultController = resultController
         }
 
     }
 
+    func updateSearchResults(for searchController: UISearchController) {
+        searchViewHolder.resultController.setScreenName(searchController.searchBar.text ?? "")
+    }
+
+    func searchedUser(_ user: User) {
+        navigationItem.searchController?.isActive = false
+        viewModel?.inputs.screenName.accept(user.screenName)
+        viewModel?.inputs.requestNextWithCount.accept(10)
+    }
 }

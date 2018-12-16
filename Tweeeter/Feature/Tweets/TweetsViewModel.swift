@@ -32,7 +32,6 @@ final class TweetsViewModel {
         var isLoading: Bool = false
         inputs.requestNextWithCount
             .filter({ count in count > 0 })
-            .debug("requestNextWithCount 1", trimOutput: true)
             .throttle(0.5, scheduler: MainScheduler.asyncInstance)
             .filter { _ in isLoading == false }
             .flatMapLatest { count -> Observable<[Tweet]> in
@@ -59,7 +58,6 @@ final class TweetsViewModel {
                 }
             }
             .do(onNext: { _ in isLoading = false }, onError: { _ in isLoading = false })
-            .debug("requestNextWithCount 2", trimOutput: true)
             .bind(to: outputs.tweets)
             .disposed(by: disposeBag)
 
