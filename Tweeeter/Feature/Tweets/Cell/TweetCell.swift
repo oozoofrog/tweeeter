@@ -49,6 +49,10 @@ final class TweetCell: UICollectionViewCell, CellIdentificable {
         viewHolder.profileImageView.sd_setImage(with: tweet.user.profileImageUrlHttps)
         viewHolder.userNameLabel.text = tweet.user.name
         viewHolder.userNameLabel.flex.markDirty()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "a HH:mm - YYYY년 M월 d일"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        viewHolder.createdAtLabel.text = dateFormatter.string(from: tweet.createdAt)
         viewHolder.containerView.flex.markDirty()
 
         viewHolder.textLabel.attributedText = property.attributedText(from: tweet)
@@ -74,6 +78,7 @@ extension TweetCell {
         var containerView: UIView
         let profileImageView: UIImageView
         let userNameLabel: UILabel
+        let createdAtLabel: UILabel
         let textLabel: UITextView
         let mediaView: UIImageView
 
@@ -81,6 +86,7 @@ extension TweetCell {
             self.containerView = UIView()
             self.profileImageView = UIImageView()
             self.userNameLabel = UILabel()
+            self.createdAtLabel = UILabel()
             self.textLabel = UITextView()
             self.mediaView = UIImageView()
 
@@ -95,12 +101,15 @@ extension TweetCell {
             mediaView.layer.cornerRadius = 10
             mediaView.clipsToBounds = true
             textLabel.font = property.textFont
+            createdAtLabel.font = UIFont.systemFont(ofSize: 10)
+            createdAtLabel.textColor = UIColor.darkGray
 
             cell.contentView.addSubview(containerView)
             containerView.flex.direction(.column).define { column in
                 column.addItem().direction(.row).define { row in
                     row.addItem(profileImageView).width(20).height(20).marginRight(8)
-                    row.addItem(userNameLabel).grow(1.0).alignSelf(.center)
+                    row.addItem(userNameLabel).alignSelf(.center)
+                    row.addItem(createdAtLabel).grow(1.0).marginLeft(16).alignSelf(.end).marginBottom(3)
                 }.height(property.userHeight)
                 column.addItem(textLabel).marginTop(property.verticalMargin)
                 column.addItem(mediaView).marginTop(property.verticalMargin)

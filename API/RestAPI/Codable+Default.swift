@@ -12,6 +12,9 @@ extension Decodable {
     public static var jsonDecoder: JSONDecoder {
         let decoder: JSONDecoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
+        var dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
         return decoder
     }
 }

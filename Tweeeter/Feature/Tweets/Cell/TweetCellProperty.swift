@@ -21,11 +21,21 @@ struct TweetCellProperty {
     func attributedText(from tweet: Tweet?) -> NSAttributedString {
         let attributedText = NSMutableAttributedString(string: tweet?.text ?? "",
                                                        attributes: [.font: textFont])
+
         if let media = tweet?.entities?.media, media.isEmpty == false {
             let indices = media.map { $0.indices }
             for indice in indices where indice.count == 2 {
                 let range = NSRange(location: indice[0], length: indice[1] - indice[0])
-                attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.blue], range: range)
+                attributedText.addAttributes([.foregroundColor: UIColor.blue,
+                                              .link: media[0].url as Any ], range: range)
+            }
+        }
+        if let urls = tweet?.entities?.urls, urls.isEmpty == false {
+            for url in urls {
+                let indices = url.indices
+                let range = NSRange(location: indices[0], length: indices[1] - indices[0])
+                attributedText.addAttributes([.foregroundColor: UIColor.blue,
+                                              .link: url.url as Any ], range: range)
             }
         }
         return attributedText

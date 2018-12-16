@@ -17,7 +17,7 @@ public struct Tweet: Decodable, Equatable {
     public let favoriteCount: UInt64?
 
     public let text: String
-    public let createdAt: String
+    public let createdAt: Date
 
     public let entities: Entities?
 
@@ -37,6 +37,7 @@ public struct User: Decodable, Equatable {
 
 public struct Entities: Decodable, Equatable {
     public var media: [Media]?
+    public var urls: [URLEntity]?
 }
 
 public struct Media: Decodable, Equatable {
@@ -52,6 +53,12 @@ public struct Media: Decodable, Equatable {
     public let displayUrl: URL?
     public let url: URL?
 
+}
+
+public struct URLEntity: Decodable, Equatable {
+    public let url: URL?
+    public let expandedUrl: URL?
+    public let indices: [Int]
 }
 
 public struct Size: Decodable, Equatable {
