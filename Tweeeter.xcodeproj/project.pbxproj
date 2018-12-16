@@ -270,7 +270,6 @@
 				4136606321C55B3400D1BDC7 /* Helper */,
 				4172882421C5647500A7F6B8 /* Supporting Files */,
 				4128172721C4C5C2004285E6 /* AppDelegate.swift */,
-				4128172921C4C5C2004285E6 /* ViewController.swift */,
 			);
 			path = Tweeeter;
 			sourceTree = "<group>";
@@ -396,6 +395,7 @@
 			isa = PBXGroup;
 			children = (
 				4172882821C564D500A7F6B8 /* Tweets */,
+				4128172921C4C5C2004285E6 /* ViewController.swift */,
 			);
 			path = Feature;
 			sourceTree = "<group>";

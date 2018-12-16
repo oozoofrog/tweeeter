@@ -13,9 +13,11 @@ import Model
 import RxSwift
 import RxCocoa
 
-class ViewController: UIViewController {
+class ViewController: UICollectionViewController {
 
     lazy var viewHolder = ViewHolder()
+    lazy var searchViewHolder = SearchViewHolder()
+
     var viewModel: TweetsViewModel?
     let cellProperty: TweetCellProperty = TweetCellProperty()
 
@@ -28,6 +30,7 @@ class ViewController: UIViewController {
         navigationItem.rightBarButtonItem = playButton
 
         viewHolder.install(self)
+        searchViewHolder.install(self)
 
         let viewModel = TweetsViewModel(provider: TweetsProvider(screenName: "neko"))
         self.viewModel = viewModel
@@ -49,40 +52,22 @@ class ViewController: UIViewController {
     var scrollToRow: Int = 0
     func showNext() {
         scrollToRow += 1
-        guard scrollToRow < viewHolder.collectionView.numberOfItems(inSection: 0) else { return }
-        viewHolder.collectionView.scrollToItem(at: IndexPath(row: scrollToRow, section: 0),
-                                               at: .top,
-                                               animated: true)
+        guard scrollToRow < collectionView.numberOfItems(inSection: 0) else { return }
+        collectionView.scrollToItem(at: IndexPath(row: scrollToRow, section: 0),
+                                    at: .top,
+                                    animated: true)
     }
 }
 
 extension ViewController {
 
     final class ViewHolder {
-
-        let collectionView: UICollectionView
-
-        init() {
+        func install(_ viewController: ViewController) {
             let layout = UICollectionViewFlowLayout()
             layout.minimumInteritemSpacing = 8
-            collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+            viewController.collectionView.collectionViewLayout = layout
+            viewController.collectionView.register(TweetCell.self)
         }
-
-        func install(_ viewController: ViewController) {
-            guard let view = viewController.view else { return }
-            view.addSubview(collectionView)
-
-            collectionView.backgroundColor = .white
-            collectionView.delegate = viewController
-            collectionView.dataSource = viewController
-            collectionView.register(TweetCell.self)
-
-            collectionView.snp.makeConstraints { maker in
-                maker.edges.equalToSuperview()
-            }
-        }
-
     }
 
 }
@@ -101,7 +86,7 @@ extension ViewController {
             .map { _ in }
             .observeOn(MainScheduler.asyncInstance)
             .subscribe { [weak self] _ in
-                self?.viewHolder.collectionView.reloadData()
+                self?.collectionView.reloadData()
             }
             .disposed(by: disposeBag)
 
@@ -118,8 +103,8 @@ extension ViewController {
                 let button: UIBarButtonItem
                 if start {
                     button = UIBarButtonItem(barButtonSystemItem: .pause,
-                                    target: self,
-                                    action: #selector(self.clickPlay(_:)))
+                                             target: self,
+                                             action: #selector(self.clickPlay(_:)))
                 } else {
                     button = UIBarButtonItem(barButtonSystemItem: .play,
                                              target: self,
@@ -132,18 +117,18 @@ extension ViewController {
 
 }
 
-extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
+extension ViewController: UICollectionViewDelegateFlowLayout {
 
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel?.outputs.tweets.value.count ?? 0
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView,
+                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TweetCell", for: indexPath)
         if let cell = cell as? TweetCell, let tweet = viewModel?.outputs.tweets.value[indexPath.row] {
             cell.set(tweet: tweet)
@@ -162,22 +147,44 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        willDisplay cell: UICollectionViewCell,
-                        forItemAt indexPath: IndexPath) {
+    override func collectionView(_ collectionView: UICollectionView,
+                                 willDisplay cell: UICollectionViewCell,
+                                 forItemAt indexPath: IndexPath) {
         if indexPath.row + 1 == collectionView.numberOfItems(inSection: 0) {
             viewModel?.inputs.requestNextWithCount.accept(10)
         }
     }
 
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        scrollToRow = viewHolder.collectionView.indexPathsForVisibleItems.first?.row ?? 0
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        scrollToRow = collectionView.indexPathsForVisibleItems.first?.row ?? 0
         viewModel?.stopPlay()
     }
 
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard decelerate == false else { return }
-        scrollToRow = viewHolder.collectionView.indexPathsForVisibleItems.first?.row ?? 0
+        scrollToRow = collectionView.indexPathsForVisibleItems.first?.row ?? 0
         viewModel?.stopPlay()
     }
+}
+
+extension ViewController: UISearchResultsUpdating {
+
+    final class SearchViewHolder {
+
+        func install(_ viewController: ViewController) {
+            let resultController = TweetsViewController(screenName: viewController.viewModel?.name ?? "neko")
+            let searchController = UISearchController(searchResultsController: resultController)
+            searchController.searchResultsUpdater = viewController
+            viewController.navigationItem.searchController = searchController
+
+            searchController.hidesNavigationBarDuringPresentation = false
+            viewController.definesPresentationContext = false
+        }
+
+    }
+
+    func updateSearchResults(for searchController: UISearchController) {
+        print(searchController.searchBar.text)
+    }
+
 }

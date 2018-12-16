@@ -13,7 +13,7 @@ final class BackgroundLayer: CAShapeLayer {
     var frameObservable: NSKeyValueObservation?
 
     func setup(with view: UIView) {
-        let observation = view.observe(\UIView.frame) { (view, _) in
+        let observation = view.observe(\UIView.frame) { (_, _) in
             self.frame = self.superlayer?.bounds ?? .zero
         }
         self.frameObservable = observation

@@ -15,13 +15,14 @@ import RxCocoa
 
 class TweetsViewController: UIViewController {
 
+    var screenName: String?
     lazy var viewHolder = ViewHolder()
     var viewModel: TweetsViewModel?
     let cellProperty: TweetCellProperty = TweetCellProperty()
 
-    init(viewModel: TweetsViewModel) {
+    init(screenName: String) {
         super.init(nibName: nil, bundle: nil)
-        self.viewModel = viewModel
+        self.screenName = screenName
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -35,7 +36,9 @@ class TweetsViewController: UIViewController {
 
         viewHolder.install(self)
 
-        _ = viewModel.flatMap(bind)
+        let viewModel = TweetsViewModel(provider: TweetsProvider(screenName: screenName ?? "neko"))
+        self.viewModel = viewModel
+        bind(viewModel)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -97,7 +100,9 @@ extension TweetsViewController {
 
 }
 
-extension TweetsViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
+extension TweetsViewController: UICollectionViewDelegateFlowLayout,
+    UICollectionViewDataSource,
+    UICollectionViewDelegate {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
