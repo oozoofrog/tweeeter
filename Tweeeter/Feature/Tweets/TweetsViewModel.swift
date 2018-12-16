@@ -18,9 +18,13 @@ final class TweetsViewModel {
 
     var disposeBag: DisposeBag?
 
-    init() {
+    let provider: (String) -> TweetsProvidable
+
+    init(screenName: String = "neko", provider: ((String) -> TweetsProvidable)? = nil) {
         self.inputs = Inputs()
         self.outputs = Outputs()
+        self.provider = provider ?? { TweetsProvider(screenName: $0) }
+        self.inputs.screenName.accept(screenName)
     }
 
     @discardableResult
@@ -28,22 +32,23 @@ final class TweetsViewModel {
         let disposeBag = DisposeBag()
         let inputs = self.inputs
         let outputs = self.outputs
-
+        let provider = self.provider
         var isLoading: Bool = false
         inputs.requestNextWithCount
             .filter({ count in count > 0 })
-            .throttle(0.5, scheduler: MainScheduler.asyncInstance)
             .filter { _ in isLoading == false }
             .flatMapLatest { count -> Observable<[Tweet]> in
                 let name = inputs.screenName.value
-                let provider = TweetsProvider.init(screenName: name)
+                let provider = provider(name)
                 isLoading = true
                 let currentTweets = outputs.tweets.value
                 if let last = currentTweets.last, last.user.screenName == name {
                     return provider
                         .requestLessThan(id: last.id, count: count)
                         .asObservable()
-                        .map { currentTweets + $0 }
+                        .map {
+                            currentTweets + $0
+                        }
                         .catchError({ _ -> Observable<[Tweet]> in
                             isLoading = false
                             return .never()

@@ -27,7 +27,6 @@ class TweeeterTests: QuickSpec {
         let tweets = try! Tweet.jsonDecoder.decode([Tweet].self, from: data)
 
         let count = 2
-        let provider: TweetsProvidable = MockTweetsProvider(tweets)
         var viewModel: TweetsViewModel!
 
         var scheduler: TestScheduler!
@@ -37,11 +36,14 @@ class TweeeterTests: QuickSpec {
 
         beforeEach {
             disposeBag = DisposeBag()
-            viewModel = TweetsViewModel(provider: provider)
+            viewModel = TweetsViewModel(screenName: "Swift", provider: { _ in MockTweetsProvider(tweets) })
             viewModel.bind()
             scheduler = TestScheduler(initialClock: 0)
             observer = scheduler.createObserver([Tweet].self)
             viewModel.outputs.tweets.bind(to: observer).disposed(by: disposeBag)
+        }
+        it("screenName은 Swift이다") {
+            expect(viewModel.inputs.screenName.value) == "Swift"
         }
         context("처음 요청을 하면") {
             it("\(count)개의 트윗을 가져온다.") {
