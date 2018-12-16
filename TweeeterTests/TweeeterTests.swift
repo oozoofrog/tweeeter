@@ -46,7 +46,7 @@ class TweeeterTests: QuickSpec {
         context("처음 요청을 하면") {
             it("\(count)개의 트윗을 가져온다.") {
                 scheduler.scheduleAt(100, action: {
-                    viewModel.inputs.requestNext.accept(count)
+                    viewModel.inputs.requestNextWithCount.accept(count)
                 })
                 scheduler.start()
 
@@ -57,10 +57,10 @@ class TweeeterTests: QuickSpec {
         context("두 번 요청을 하면") {
             it("\(count * 2)개의 트윗을 가져온다.") {
                 scheduler.scheduleAt(100, action: {
-                    viewModel.inputs.requestNext.accept(count)
+                    viewModel.inputs.requestNextWithCount.accept(count)
                 })
                 scheduler.scheduleAt(200, action: {
-                    viewModel.inputs.requestNext.accept(count)
+                    viewModel.inputs.requestNextWithCount.accept(count)
                 })
                 scheduler.start()
 

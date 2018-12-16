@@ -39,6 +39,7 @@
 		4172883121C5749C00A7F6B8 /* user_timeline.json in Resources */ = {isa = PBXBuildFile; fileRef = 4172883021C5749C00A7F6B8 /* user_timeline.json */; };
 		4172883721C607B700A7F6B8 /* UserTimelineRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172883621C607B700A7F6B8 /* UserTimelineRequestBuilder.swift */; };
 		4172883A21C60F8500A7F6B8 /* UserTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172883921C60F8500A7F6B8 /* UserTimeline.swift */; };
+		4172884121C61DDB00A7F6B8 /* TweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172884021C61DDB00A7F6B8 /* TweetCell.swift */; };
 		5A8BFB95B7FA2BD8D55AF5F3 /* Pods_Tweeeter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB252D9BB51567CA840EE1DC /* Pods_Tweeeter.framework */; };
 		6F666B8D0C21899102B8D4EC /* Pods_TweeeterTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5B3E070B47CBBC9D244BE5 /* Pods_TweeeterTests.framework */; };
 		9C4CC1F611210A1658EA2B2F /* Pods_APITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F5D7ACB8EC35136FE082A0 /* Pods_APITests.framework */; };
@@ -147,6 +148,7 @@
 		4172883021C5749C00A7F6B8 /* user_timeline.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = user_timeline.json; sourceTree = "<group>"; };
 		4172883621C607B700A7F6B8 /* UserTimelineRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTimelineRequestBuilder.swift; sourceTree = "<group>"; };
 		4172883921C60F8500A7F6B8 /* UserTimeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTimeline.swift; sourceTree = "<group>"; };
+		4172884021C61DDB00A7F6B8 /* TweetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetCell.swift; sourceTree = "<group>"; };
 		41F5D7ACB8EC35136FE082A0 /* Pods_APITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_APITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D81E844AAC892ABECBCC0C2 /* Pods-TweeeterUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TweeeterUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TweeeterUITests/Pods-TweeeterUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BBFC9614CF87931FDAC2E1C9 /* Pods-TweeeterUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TweeeterUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TweeeterUITests/Pods-TweeeterUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				4136606321C55B3400D1BDC7 /* Helper */,
 				4172882421C5647500A7F6B8 /* Supporting Files */,
 				4128172721C4C5C2004285E6 /* AppDelegate.swift */,
+				4128172921C4C5C2004285E6 /* ViewController.swift */,
 			);
 			path = Tweeeter;
 			sourceTree = "<group>";
@@ -391,8 +394,8 @@
 		4172882821C564D500A7F6B8 /* Tweets */ = {
 			isa = PBXGroup;
 			children = (
+				4172883F21C61DD000A7F6B8 /* Cell */,
 				4172882B21C56D2500A7F6B8 /* Provider */,
-				4128172921C4C5C2004285E6 /* ViewController.swift */,
 				4172882921C5669F00A7F6B8 /* TweetsViewModel.swift */,
 			);
 			path = Tweets;
@@ -428,6 +431,14 @@
 				4172883921C60F8500A7F6B8 /* UserTimeline.swift */,
 			);
 			path = Request;
+			sourceTree = "<group>";
+		};
+		4172883F21C61DD000A7F6B8 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				4172884021C61DDB00A7F6B8 /* TweetCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		E8623D070F38EEB707F9B55E /* Frameworks */ = {
@@ -837,16 +848,22 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Tweeeter/Pods-Tweeeter-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/FlexLayout/FlexLayout.framework",
+				"${BUILT_PRODUCTS_DIR}/PinLayout/PinLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FlexLayout.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PinLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -884,6 +901,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4172882621C5648C00A7F6B8 /* AppDelegate.swift in Sources */,
+				4172884121C61DDB00A7F6B8 /* TweetCell.swift in Sources */,
 				4136606821C55B5700D1BDC7 /* APIRequestBuilder+Rx.swift in Sources */,
 				4172882A21C5669F00A7F6B8 /* TweetsViewModel.swift in Sources */,
 				4128173021C4C5C2004285E6 /* Tweeeter.xcdatamodeld in Sources */,

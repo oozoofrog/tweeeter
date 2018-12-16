@@ -17,6 +17,9 @@ target 'Tweeeter' do
   pod 'RxCocoa'
   pod 'SnapKit'
   pod 'SwiftLint'
+  pod 'FlexLayout'
+  pod 'PinLayout'
+  pod 'SDWebImage'
 
   target 'TweeeterTests' do
     inherit! :search_paths

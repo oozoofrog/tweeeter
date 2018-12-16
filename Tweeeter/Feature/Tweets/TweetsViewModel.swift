@@ -20,7 +20,7 @@ final class TweetsViewModel {
 
     var disposeBag: DisposeBag?
 
-    init(provider: TweetsProvidable = TweetsProvider(screenName: "swift")) {
+    init(provider: TweetsProvidable) {
         self.provider = provider
         self.inputs = Inputs()
         self.outputs = Outputs()
@@ -30,12 +30,12 @@ final class TweetsViewModel {
         return provider.screenName
     }
 
-    func bind() {
+    func bind() -> DisposeBag {
         let disposeBag = DisposeBag()
         let provider = self.provider
         let inputs = self.inputs
         let outputs = self.outputs
-        inputs.requestNext.flatMap { count -> Observable<[Tweet]> in
+        inputs.requestNextWithCount.flatMap { count -> Observable<[Tweet]> in
             let currentTweets = outputs.tweets.value
             if let lastID = currentTweets.last?.id {
                 return provider.requestLessThan(id: lastID, count: count).asObservable().map { currentTweets + $0 }
@@ -45,13 +45,14 @@ final class TweetsViewModel {
         }.bind(to: outputs.tweets).disposed(by: disposeBag)
 
         self.disposeBag = disposeBag
+        return disposeBag
     }
 }
 
 extension TweetsViewModel {
 
     final class Inputs {
-        let requestNext: PublishRelay<Int> = PublishRelay<Int>()
+        let requestNextWithCount: PublishRelay<Int> = PublishRelay<Int>()
     }
 
     final class Outputs {

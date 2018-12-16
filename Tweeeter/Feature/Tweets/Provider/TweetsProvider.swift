@@ -30,7 +30,8 @@ struct TweetsProvider: TweetsProvidable {
 
     func requestLessThan(id: UInt64, count: Int) -> Single<[Tweet]> {
         do {
-            return try UserTimelineRequestBuilder(request: UserTimeline(screenName, count: count, maxID: id)).rx.timeline()
+            return try UserTimelineRequestBuilder(request: UserTimeline(screenName, count: count, maxID: id)).rx
+                .timeline()
         } catch {
             fatalError(error.localizedDescription)
         }
