@@ -10,11 +10,11 @@ import Foundation
 
 public class APIConfiguration {
 
-    static let `default`: APIConfiguration = APIConfiguration(accessTokenProvider: AccessTokenProvider())
+    public static let `default`: APIConfiguration = APIConfiguration(accessTokenProvider: AccessTokenProvider())
 
-    let accessTokenProvider: AccessTokenProvidable
-    let clientCredential: ClientCredential
-    let requestAccessTokenIfNeeded: Bool
+    public let accessTokenProvider: AccessTokenProvidable
+    public let clientCredential: ClientCredential
+    public let requestAccessTokenIfNeeded: Bool
 
     init(accessTokenProvider: AccessTokenProvidable,
          requestAccessTokenIfNeeded: Bool = true,

@@ -46,6 +46,12 @@ final class TweetCell: UICollectionViewCell, CellIdentificable {
         viewHolder.textLabel.text = tweet.text
         viewHolder.textLabel.flex.markDirty()
         viewHolder.containerView.flex.markDirty()
+
+        if let media = tweet.entities?.media, media.isEmpty == false {
+            viewHolder.mediaView.isHidden = false
+        } else {
+            viewHolder.mediaView.isHidden = true
+        }
     }
 
 }
@@ -58,12 +64,15 @@ extension TweetCell {
         let profileImageView: UIImageView
         let userNameLabel: UILabel
         let textLabel: UITextView
+        let mediaView: UIView
 
         init() {
             self.containerView = UIView()
             self.profileImageView = UIImageView()
             self.userNameLabel = UILabel()
             self.textLabel = UITextView()
+            self.mediaView = UIView()
+
             self.textLabel.isEditable = false
             self.textLabel.isScrollEnabled = false
         }
@@ -72,6 +81,7 @@ extension TweetCell {
 
             profileImageView.contentMode = .scaleAspectFit
             textLabel.font = UIFont.systemFont(ofSize: 22, weight: .regular)
+            mediaView.backgroundColor = .red
 
             cell.contentView.addSubview(containerView)
             containerView.flex.direction(.column).define { column in
@@ -80,6 +90,7 @@ extension TweetCell {
                     row.addItem(userNameLabel).grow(1.0).alignSelf(.center)
                 }
                 column.addItem(textLabel).grow(1.0).marginTop(8)
+                column.addItem(mediaView).grow(1.0).marginTop(8).height(20)
             }.grow(1.0).justifyContent(.center).paddingHorizontal(16).paddingTop(24)
 
             textLabel.backgroundLayer = BackgroundLayer(layer: containerView.layer)

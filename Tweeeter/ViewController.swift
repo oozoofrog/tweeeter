@@ -23,15 +23,25 @@ class ViewController: UIViewController {
 
         view.backgroundColor = .white
 
+        let printAccessToken = UIBarButtonItem(title: "?",
+                                               style: .done,
+                                               target: self,
+                                               action: #selector(printAccessKeyForDebugging(_:)))
+        navigationItem.leftBarButtonItem = printAccessToken
+
         viewHolder.install(self)
 
-        let viewModel = TweetsViewModel(provider: TweetsProvider(screenName: "swift"))
+        let viewModel = TweetsViewModel(provider: TweetsProvider(screenName: "neko"))
         self.viewModel = viewModel
         bind(viewModel)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    }
+
+    @objc func printAccessKeyForDebugging(_ sender: Any) {
+        print(APIConfiguration.default.accessTokenProvider.accessToken)
     }
 
 }
