@@ -121,6 +121,22 @@ public class APIRequestBuilder: APIRequestBuildable {
         self.parameters = parameters
     }
 
+    public convenience init<Request: Encodable>(configuration: APIConfiguration? = nil,
+                                                requestCreator: URLRequestCreatable = CommonRequestCreator(),
+                                                method: Method = .get,
+                                                api: API = .api,
+                                                apiVersion: String? = "1.1",
+                                                path: String,
+                                                request: Request? = nil) throws {
+        self.init(configuration: configuration,
+                  requestCreator: requestCreator,
+                  method: method,
+                  api: api,
+                  apiVersion: apiVersion,
+                  path: path,
+                  parameters: try request.export.parameter())
+    }
+
     public func createURL() -> URL {
         guard let baseURL: URL = URL(string: api.rawValue) else { fatalError() }
         var url = baseURL

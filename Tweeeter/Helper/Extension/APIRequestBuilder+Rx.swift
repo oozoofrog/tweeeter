@@ -8,6 +8,7 @@
 
 import RxSwift
 import API
+import Model
 
 extension APIRequestBuilder: ReactiveCompatible {}
 
@@ -28,6 +29,14 @@ extension Reactive where Base: APIRequestBuilder {
 
             return Disposables.create()
         })
+    }
+
+}
+
+extension Reactive where Base: UserTimelineRequestBuilder {
+
+    func timeline() -> Single<[Tweet]> {
+        return base.rx.request([Tweet].self)
     }
 
 }

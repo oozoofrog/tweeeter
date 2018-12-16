@@ -21,11 +21,19 @@ struct TweetsProvider: TweetsProvidable {
     let screenName: String
 
     func request(count: Int) -> Single<[Tweet]> {
-        return .never()
+        do {
+            return try UserTimelineRequestBuilder(request: UserTimeline(screenName, count: count)).rx.timeline()
+        } catch {
+            fatalError(error.localizedDescription)
+        }
     }
 
     func requestLessThan(id: UInt64, count: Int) -> Single<[Tweet]> {
-        return .never()
+        do {
+            return try UserTimelineRequestBuilder(request: UserTimeline(screenName, count: count, maxID: id)).rx.timeline()
+        } catch {
+            fatalError(error.localizedDescription)
+        }
     }
 
 }
