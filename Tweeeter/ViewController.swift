@@ -69,6 +69,8 @@ extension ViewController {
     func bind(_ viewModel: TweetsViewModel) {
         let disposeBag = viewModel.bind()
 
+        title = viewModel.name
+
         viewModel.inputs.requestNextWithCount.accept(10)
 
         viewModel.outputs.tweets
@@ -93,7 +95,8 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         return viewModel?.outputs.tweets.value.count ?? 0
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TweetCell", for: indexPath)
         if let cell = cell as? TweetCell, let tweet = viewModel?.outputs.tweets.value[indexPath.row] {
             cell.set(tweet: tweet)
@@ -104,6 +107,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 80)
+        return CGSize(width: collectionView.bounds.width, height: 240)
     }
+
 }

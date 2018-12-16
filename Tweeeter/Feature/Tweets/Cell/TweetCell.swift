@@ -10,45 +10,89 @@ import UIKit
 import Model
 import FlexLayout
 import PinLayout
+import SDWebImage
 
+///
+/// https://github.com/twitter/twitter-text/blob/master/rb/lib/twitter-text/regex.rb
+/// 위에 보고 텍스트쪽을 좀 더 만져볼까 하다가 굳이 ㅋㅋ
 final class TweetCell: UICollectionViewCell, CellIdentificable {
 
+    private(set) lazy var viewHolder = ViewHolder()
     var tweet: Tweet?
 
-    var containerView: UIView?
-    let userNameLabel: UILabel
-    let textLabel: UITextField
-
     override init(frame: CGRect) {
-        self.userNameLabel = UILabel()
-        self.textLabel = UITextField()
         super.init(frame: frame)
-
-        containerView = contentView.flex.addItem().direction(.column).define { column in
-            column.addItem(userNameLabel)
-            column.addItem(textLabel).grow(1.0).shrink(1.0)
-        }.justifyContent(.center).view
+        viewHolder.install(self)
 
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError()
+        super.init(coder: aDecoder)
+        viewHolder.install(self)
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        contentView.flex.layout()
-        containerView?.pin.marginHorizontal(16).marginVertical(8)
+        viewHolder.layout(contentView: contentView)
     }
 
     func set(tweet: Tweet) {
         self.tweet = tweet
 
-        userNameLabel.text = tweet.user.name
-        userNameLabel.flex.markDirty()
-        textLabel.text = tweet.text
-        textLabel.flex.markDirty()
+        viewHolder.profileImageView.sd_setImage(with: tweet.user.profileImageUrlHttps)
+        viewHolder.userNameLabel.text = tweet.user.name
+        viewHolder.userNameLabel.flex.markDirty()
+        viewHolder.textLabel.text = tweet.text
+        viewHolder.textLabel.flex.markDirty()
+        viewHolder.containerView.flex.markDirty()
+    }
+
+}
+
+extension TweetCell {
+
+    final class ViewHolder {
+
+        var containerView: UIView
+        let profileImageView: UIImageView
+        let userNameLabel: UILabel
+        let textLabel: UITextView
+
+        init() {
+            self.containerView = UIView()
+            self.profileImageView = UIImageView()
+            self.userNameLabel = UILabel()
+            self.textLabel = UITextView()
+            self.textLabel.isEditable = false
+            self.textLabel.isScrollEnabled = false
+        }
+
+        func install(_ cell: TweetCell) {
+
+            profileImageView.contentMode = .scaleAspectFit
+            textLabel.font = UIFont.systemFont(ofSize: 22, weight: .regular)
+
+            cell.contentView.addSubview(containerView)
+            containerView.flex.direction(.column).define { column in
+                column.addItem().direction(.row).define { row in
+                    row.addItem(profileImageView).width(20).height(20).marginRight(8)
+                    row.addItem(userNameLabel).grow(1.0).alignSelf(.center)
+                }
+                column.addItem(textLabel).grow(1.0).marginTop(8)
+            }.grow(1.0).justifyContent(.center).paddingHorizontal(16).paddingTop(24)
+
+            textLabel.backgroundLayer = BackgroundLayer(layer: containerView.layer)
+            textLabel.backgroundLayer?.cornerRadius = 5
+            textLabel.backgroundLayer?.fillColor = UIColor(white: 0, alpha: 0.1).cgColor
+            textLabel.backgroundLayer?.strokeColor = UIColor(white: 0, alpha: 0.3).cgColor
+            textLabel.backgroundLayer?.lineWidth = 2.0
+        }
+
+        func layout(contentView: UIView) {
+            contentView.flex.layout()
+            containerView.pin.all()
+        }
     }
 
 }
