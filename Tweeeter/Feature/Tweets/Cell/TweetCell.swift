@@ -17,6 +17,7 @@ import SDWebImage
 /// 위에 보고 텍스트쪽을 좀 더 만져볼까 하다가 굳이 ㅋㅋ
 final class TweetCell: UICollectionViewCell, CellIdentificable {
 
+    let property = TweetCellProperty()
     private(set) lazy var viewHolder = ViewHolder()
     var tweet: Tweet?
 
@@ -35,6 +36,11 @@ final class TweetCell: UICollectionViewCell, CellIdentificable {
         super.layoutSubviews()
 
         viewHolder.layout(contentView: contentView)
+        let textHeight = property.calculateTextHeight(width: bounds.width,
+                                                      attributedText: viewHolder.textLabel.attributedText)
+        viewHolder.textLabel.pin.height(textHeight)
+        viewHolder.mediaView.pin.height(property.calculateMediaHeight(width: bounds.width,
+                                                                      media: tweet?.entities?.media))
     }
 
     func set(tweet: Tweet) {
@@ -43,11 +49,16 @@ final class TweetCell: UICollectionViewCell, CellIdentificable {
         viewHolder.profileImageView.sd_setImage(with: tweet.user.profileImageUrlHttps)
         viewHolder.userNameLabel.text = tweet.user.name
         viewHolder.userNameLabel.flex.markDirty()
-        viewHolder.textLabel.text = tweet.text
-        viewHolder.textLabel.flex.markDirty()
         viewHolder.containerView.flex.markDirty()
 
-        if let media = tweet.entities?.media, media.isEmpty == false {
+        viewHolder.textLabel.attributedText = property.attributedText(from: tweet)
+        viewHolder.textLabel.flex.markDirty()
+
+        if let media = tweet.entities?.media, media.isEmpty == false, media[0].type == "photo" {
+            viewHolder.mediaView
+                .sd_setImage(with: media[0].mediaUrlHttps,
+                             placeholderImage: nil,
+                             options: [.transformAnimatedImage, .continueInBackground, .scaleDownLargeImages])
             viewHolder.mediaView.isHidden = false
         } else {
             viewHolder.mediaView.isHidden = true
@@ -64,40 +75,45 @@ extension TweetCell {
         let profileImageView: UIImageView
         let userNameLabel: UILabel
         let textLabel: UITextView
-        let mediaView: UIView
+        let mediaView: UIImageView
 
         init() {
             self.containerView = UIView()
             self.profileImageView = UIImageView()
             self.userNameLabel = UILabel()
             self.textLabel = UITextView()
-            self.mediaView = UIView()
+            self.mediaView = UIImageView()
 
             self.textLabel.isEditable = false
             self.textLabel.isScrollEnabled = false
         }
 
         func install(_ cell: TweetCell) {
-
+            let property = cell.property
             profileImageView.contentMode = .scaleAspectFit
-            textLabel.font = UIFont.systemFont(ofSize: 22, weight: .regular)
-            mediaView.backgroundColor = .red
+            mediaView.contentMode = .scaleAspectFill
+            mediaView.layer.cornerRadius = 10
+            mediaView.clipsToBounds = true
+            textLabel.font = property.textFont
 
             cell.contentView.addSubview(containerView)
             containerView.flex.direction(.column).define { column in
                 column.addItem().direction(.row).define { row in
                     row.addItem(profileImageView).width(20).height(20).marginRight(8)
                     row.addItem(userNameLabel).grow(1.0).alignSelf(.center)
-                }
-                column.addItem(textLabel).grow(1.0).marginTop(8)
-                column.addItem(mediaView).grow(1.0).marginTop(8).height(20)
-            }.grow(1.0).justifyContent(.center).paddingHorizontal(16).paddingTop(24)
+                }.height(property.userHeight)
+                column.addItem(textLabel).marginTop(property.verticalMargin)
+                column.addItem(mediaView).marginTop(property.verticalMargin)
+            }
+            .grow(1.0)
+            .paddingHorizontal(property.horizontalMargin)
+            .paddingVertical(property.verticalMargin + property.topMargin)
 
-            textLabel.backgroundLayer = BackgroundLayer(layer: containerView.layer)
-            textLabel.backgroundLayer?.cornerRadius = 5
-            textLabel.backgroundLayer?.fillColor = UIColor(white: 0, alpha: 0.1).cgColor
-            textLabel.backgroundLayer?.strokeColor = UIColor(white: 0, alpha: 0.3).cgColor
-            textLabel.backgroundLayer?.lineWidth = 2.0
+            containerView.backgroundLayer = BackgroundLayer(layer: containerView.layer)
+            containerView.backgroundLayer?.cornerRadius = 5
+            containerView.backgroundLayer?.fillColor = UIColor(red: 0.9, green: 0.9, blue: 0.8, alpha: 0.3).cgColor
+            containerView.backgroundLayer?.strokeColor = UIColor(red: 0.9, green: 0.9, blue: 0.8, alpha: 0.4).cgColor
+            containerView.backgroundLayer?.lineWidth = 1.0
         }
 
         func layout(contentView: UIView) {

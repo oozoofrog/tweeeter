@@ -48,6 +48,10 @@ final class TweetsViewModel {
         self.disposeBag = disposeBag
         return disposeBag
     }
+
+    func startPlay() {
+        
+    }
 }
 
 extension TweetsViewModel {

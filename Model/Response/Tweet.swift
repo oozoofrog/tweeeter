@@ -42,15 +42,15 @@ public struct Entities: Decodable, Equatable {
 public struct Media: Decodable, Equatable {
 
     public let sizes: Sizes
-    public let mediaUrlHttps: String
-    public let expandedUrl: String
-    public let mediaUrl: String
+    public let mediaUrlHttps: URL?
+    public let expandedUrl: URL?
+    public let mediaUrl: URL?
     public let indices: [Int]
     public let type: String
     public let id: UInt64
     public let idStr: String
-    public let displayUrl: String
-    public let url: String
+    public let displayUrl: URL?
+    public let url: URL?
 
 }
 

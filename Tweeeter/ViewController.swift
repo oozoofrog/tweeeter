@@ -17,6 +17,7 @@ class ViewController: UIViewController {
 
     lazy var viewHolder = ViewHolder()
     var viewModel: TweetsViewModel?
+    let cellProperty: TweetCellProperty = TweetCellProperty()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +29,9 @@ class ViewController: UIViewController {
                                                target: self,
                                                action: #selector(printAccessKeyForDebugging(_:)))
         navigationItem.leftBarButtonItem = printAccessToken
+
+        let playButton = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(clickPlay(_:)))
+        navigationItem.rightBarButtonItem = playButton
 
         viewHolder.install(self)
 
@@ -41,9 +45,12 @@ class ViewController: UIViewController {
     }
 
     @objc func printAccessKeyForDebugging(_ sender: Any) {
-        print(APIConfiguration.default.accessTokenProvider.accessToken)
+        print(APIConfiguration.default.accessTokenProvider.accessToken ?? "")
     }
 
+    @objc func clickPlay(_ sender: Any) {
+        viewModel?.startPlay()
+    }
 }
 
 extension ViewController {
@@ -53,7 +60,10 @@ extension ViewController {
         let collectionView: UICollectionView
 
         init() {
-            collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+            let layout = UICollectionViewFlowLayout()
+            layout.minimumInteritemSpacing = 8
+            collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         }
 
         func install(_ viewController: ViewController) {
@@ -117,7 +127,12 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 240)
+
+        let height = cellProperty.calculateCellHeight(width: collectionView.bounds.width - 16,
+                                                      tweet: viewModel?.outputs.tweets.value[indexPath.row])
+
+        return CGSize(width: collectionView.bounds.width - 16, height: height)
+
     }
 
 }
