@@ -13,50 +13,38 @@ import Model
 import RxSwift
 import RxCocoa
 
-class ViewController: UIViewController {
+class TweetsViewController: UIViewController {
 
     lazy var viewHolder = ViewHolder()
     var viewModel: TweetsViewModel?
     let cellProperty: TweetCellProperty = TweetCellProperty()
+
+    init(viewModel: TweetsViewModel) {
+        super.init(nibName: nil, bundle: nil)
+        self.viewModel = viewModel
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .white
 
-        let playButton = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(clickPlay(_:)))
-        navigationItem.rightBarButtonItem = playButton
-
         viewHolder.install(self)
 
-        let viewModel = TweetsViewModel(provider: TweetsProvider(screenName: "neko"))
-        self.viewModel = viewModel
-        bind(viewModel)
+        _ = viewModel.flatMap(bind)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
 
-    @objc func clickPlay(_ sender: Any) {
-        if viewModel?.isPlaying == true {
-            viewModel?.stopPlay()
-        } else {
-            viewModel?.startPlay()
-        }
-    }
-
-    var scrollToRow: Int = 0
-    func showNext() {
-        scrollToRow += 1
-        guard scrollToRow < viewHolder.collectionView.numberOfItems(inSection: 0) else { return }
-        viewHolder.collectionView.scrollToItem(at: IndexPath(row: scrollToRow, section: 0),
-                                               at: .top,
-                                               animated: true)
-    }
 }
 
-extension ViewController {
+extension TweetsViewController {
 
     final class ViewHolder {
 
@@ -69,7 +57,7 @@ extension ViewController {
             collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         }
 
-        func install(_ viewController: ViewController) {
+        func install(_ viewController: TweetsViewController) {
             guard let view = viewController.view else { return }
             view.addSubview(collectionView)
 
@@ -87,7 +75,7 @@ extension ViewController {
 
 }
 
-extension ViewController {
+extension TweetsViewController {
 
     func bind(_ viewModel: TweetsViewModel) {
         let disposeBag = viewModel.bind()
@@ -105,34 +93,11 @@ extension ViewController {
             }
             .disposed(by: disposeBag)
 
-        viewModel.outputs.showNext
-            .subscribe(onNext: { [weak self] _ in
-                self?.showNext()
-            })
-            .disposed(by: disposeBag)
-        viewModel.inputs.startPlay
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: false)
-            .drive(onNext: { [weak self] start in
-                guard let self = self else { return }
-                let button: UIBarButtonItem
-                if start {
-                    button = UIBarButtonItem(barButtonSystemItem: .pause,
-                                    target: self,
-                                    action: #selector(self.clickPlay(_:)))
-                } else {
-                    button = UIBarButtonItem(barButtonSystemItem: .play,
-                                             target: self,
-                                             action: #selector(self.clickPlay(_:)))
-                }
-                self.navigationItem.setRightBarButton(button, animated: true)
-            })
-            .disposed(by: disposeBag)
     }
 
 }
 
-extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
+extension TweetsViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -170,14 +135,4 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         }
     }
 
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        scrollToRow = viewHolder.collectionView.indexPathsForVisibleItems.first?.row ?? 0
-        viewModel?.stopPlay()
-    }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        guard decelerate == false else { return }
-        scrollToRow = viewHolder.collectionView.indexPathsForVisibleItems.first?.row ?? 0
-        viewModel?.stopPlay()
-    }
 }
