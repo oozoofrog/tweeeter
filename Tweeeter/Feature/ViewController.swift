@@ -32,7 +32,7 @@ class ViewController: UICollectionViewController {
         viewHolder.install(self)
         searchViewHolder.install(self)
 
-        let viewModel = TweetsViewModel(provider: TweetsProvider(screenName: "neko"))
+        let viewModel = TweetsViewModel()
         self.viewModel = viewModel
         bind(viewModel)
     }
@@ -77,7 +77,7 @@ extension ViewController {
     func bind(_ viewModel: TweetsViewModel) {
         let disposeBag = viewModel.bind()
 
-        title = viewModel.name
+        viewModel.inputs.screenName.bind(to: rx.title).disposed(by: disposeBag)
 
         viewModel.inputs.requestNextWithCount.accept(10)
 
@@ -111,6 +111,26 @@ extension ViewController {
                                              action: #selector(self.clickPlay(_:)))
                 }
                 self.navigationItem.setRightBarButton(button, animated: true)
+            })
+            .disposed(by: disposeBag)
+
+        guard let resultController = searchViewHolder.resultController else { return }
+        guard let searchController = navigationItem.searchController else { return }
+
+        let resultViewModel = resultController.viewModel
+        searchController.searchBar.rx.text
+            .filter({ _ in searchController.isActive })
+            .map { $0 ?? "" }
+            .distinctUntilChanged()
+            .throttle(0.5, scheduler: MainScheduler.asyncInstance)
+            .bind(to: resultViewModel.inputs.screenName)
+            .disposed(by: disposeBag)
+
+        searchController.rx.willPresent
+            .subscribe(onNext: { [weak resultController, weak self] _ in
+                resultController?.rebind()
+                resultController?.setScreenName(searchController.searchBar.text ?? "neko")
+                resultController?.setTweets(self?.viewModel?.outputs.tweets.value ?? [])
             })
             .disposed(by: disposeBag)
     }
@@ -167,24 +187,24 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension ViewController: UISearchResultsUpdating {
+extension ViewController {
 
     final class SearchViewHolder {
 
+        var resultController: TweetsViewController?
+
         func install(_ viewController: ViewController) {
-            let resultController = TweetsViewController(screenName: viewController.viewModel?.name ?? "neko")
+            let resultController = TweetsViewController()
             let searchController = UISearchController(searchResultsController: resultController)
-            searchController.searchResultsUpdater = viewController
+            searchController.searchBar.placeholder = "트위터 사용자 이름 입력"
             viewController.navigationItem.searchController = searchController
 
-            searchController.hidesNavigationBarDuringPresentation = false
-            viewController.definesPresentationContext = false
+            searchController.definesPresentationContext = false
+            viewController.definesPresentationContext = true
+
+            self.resultController = resultController
         }
 
-    }
-
-    func updateSearchResults(for searchController: UISearchController) {
-        print(searchController.searchBar.text)
     }
 
 }

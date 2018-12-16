@@ -15,19 +15,9 @@ import RxCocoa
 
 class TweetsViewController: UIViewController {
 
-    var screenName: String?
     lazy var viewHolder = ViewHolder()
-    var viewModel: TweetsViewModel?
+    lazy var viewModel = TweetsViewModel()
     let cellProperty: TweetCellProperty = TweetCellProperty()
-
-    init(screenName: String) {
-        super.init(nibName: nil, bundle: nil)
-        self.screenName = screenName
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError()
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,15 +26,20 @@ class TweetsViewController: UIViewController {
 
         viewHolder.install(self)
 
-        let viewModel = TweetsViewModel(provider: TweetsProvider(screenName: screenName ?? "neko"))
-        self.viewModel = viewModel
-        bind(viewModel)
+        self.extendedLayoutIncludesOpaqueBars = self.navigationController?.navigationBar.isTranslucent == false
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
 
+    func setScreenName(_ screenName: String) {
+        viewModel.inputs.screenName.accept(screenName)
+    }
+
+    func setTweets(_ tweets: [Tweet]) {
+        viewModel.outputs.tweets.accept(tweets)
+    }
 }
 
 extension TweetsViewController {
@@ -80,13 +75,11 @@ extension TweetsViewController {
 
 extension TweetsViewController {
 
+    func rebind() {
+        bind(viewModel)
+    }
     func bind(_ viewModel: TweetsViewModel) {
         let disposeBag = viewModel.bind()
-
-        title = viewModel.name
-
-        viewModel.inputs.requestNextWithCount.accept(10)
-
         viewModel.outputs.tweets
             .distinctUntilChanged()
             .map { _ in }
@@ -96,6 +89,14 @@ extension TweetsViewController {
             }
             .disposed(by: disposeBag)
 
+        viewModel.inputs
+            .screenName
+            .skip(1)
+            .distinctUntilChanged()
+            .filter({ $0.isEmpty == false })
+            .map { _ in 10 }
+            .bind(to: viewModel.inputs.requestNextWithCount)
+            .disposed(by: disposeBag)
     }
 
 }
@@ -109,13 +110,14 @@ extension TweetsViewController: UICollectionViewDelegateFlowLayout,
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.outputs.tweets.value.count ?? 0
+        return viewModel.outputs.tweets.value.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TweetCell", for: indexPath)
-        if let cell = cell as? TweetCell, let tweet = viewModel?.outputs.tweets.value[indexPath.row] {
+        if let cell = cell as? TweetCell {
+            let tweet = viewModel.outputs.tweets.value[indexPath.row]
             cell.set(tweet: tweet)
         }
         return cell
@@ -126,18 +128,10 @@ extension TweetsViewController: UICollectionViewDelegateFlowLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         let height = cellProperty.calculateCellHeight(width: collectionView.bounds.width - 16,
-                                                      tweet: viewModel?.outputs.tweets.value[indexPath.row])
+                                                      tweet: viewModel.outputs.tweets.value[indexPath.row])
 
         return CGSize(width: collectionView.bounds.width - 16, height: height)
 
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        willDisplay cell: UICollectionViewCell,
-                        forItemAt indexPath: IndexPath) {
-        if indexPath.row + 1 == collectionView.numberOfItems(inSection: 0) {
-            viewModel?.inputs.requestNextWithCount.accept(10)
-        }
     }
 
 }
