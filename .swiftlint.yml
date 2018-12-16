@@ -1,0 +1,7 @@
+disabled_rules:
+    - identifier_name
+excluded:
+    - Pods
+    - TweeeterTests
+    - TweeeterUITests
+    - APITests
