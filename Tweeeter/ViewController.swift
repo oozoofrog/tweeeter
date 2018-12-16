@@ -51,6 +51,9 @@ extension ViewController {
             view.addSubview(collectionView)
 
             collectionView.backgroundColor = .white
+            collectionView.delegate = viewController
+            collectionView.dataSource = viewController
+            collectionView.register(TweetCell.self)
 
             collectionView.snp.makeConstraints { maker in
                 maker.edges.equalToSuperview()
@@ -64,10 +67,18 @@ extension ViewController {
 extension ViewController {
 
     func bind(_ viewModel: TweetsViewModel) {
-        viewModel.bind()
+        let disposeBag = viewModel.bind()
 
         viewModel.inputs.requestNextWithCount.accept(10)
 
+        viewModel.outputs.tweets
+            .distinctUntilChanged()
+            .map { _ in }
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe { [weak self] _ in
+                self?.viewHolder.collectionView.reloadData()
+            }
+            .disposed(by: disposeBag)
     }
 
 }
@@ -83,7 +94,16 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        <#code#>
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TweetCell", for: indexPath)
+        if let cell = cell as? TweetCell, let tweet = viewModel?.outputs.tweets.value[indexPath.row] {
+            cell.set(tweet: tweet)
+        }
+        return cell
     }
 
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 80)
+    }
 }

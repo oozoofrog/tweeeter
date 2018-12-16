@@ -1,4 +1,5 @@
 PODS:
+  - FLEX (2.4.0)
   - FlexLayout (1.3.11)
   - Nimble (7.3.1)
   - PinLayout (1.8.6)
@@ -15,6 +16,7 @@ PODS:
   - SwiftLint (0.27.0)
 
 DEPENDENCIES:
+  - FLEX
   - FlexLayout
   - Nimble
   - PinLayout
@@ -28,6 +30,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - FLEX
     - FlexLayout
     - Nimble
     - PinLayout
@@ -40,6 +43,7 @@ SPEC REPOS:
     - SwiftLint
 
 SPEC CHECKSUMS:
+  FLEX: bd1a39e55b56bb413b6f1b34b3c10a0dc44ef079
   FlexLayout: b008184d23aae0c56e1c916e803445a13a6f4e5a
   Nimble: 04f732da099ea4d153122aec8c2a88fd0c7219ae
   PinLayout: fe2a2432d6982588e208572005c941aeeae417ab
@@ -51,6 +55,6 @@ SPEC CHECKSUMS:
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
 
-PODFILE CHECKSUM: 7857d1cff0385c89e33a410e66ff97f4d04130bf
+PODFILE CHECKSUM: 7d824787ee5327425e50582af87b7fdb5e1dcd92
 
 COCOAPODS: 1.5.3

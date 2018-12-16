@@ -20,6 +20,7 @@ target 'Tweeeter' do
   pod 'FlexLayout'
   pod 'PinLayout'
   pod 'SDWebImage'
+  pod 'FLEX'
 
   target 'TweeeterTests' do
     inherit! :search_paths

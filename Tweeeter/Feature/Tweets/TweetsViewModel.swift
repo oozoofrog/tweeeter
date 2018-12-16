@@ -30,6 +30,7 @@ final class TweetsViewModel {
         return provider.screenName
     }
 
+    @discardableResult
     func bind() -> DisposeBag {
         let disposeBag = DisposeBag()
         let provider = self.provider
