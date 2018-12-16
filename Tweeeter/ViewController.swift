@@ -49,7 +49,20 @@ class ViewController: UIViewController {
     }
 
     @objc func clickPlay(_ sender: Any) {
-        viewModel?.startPlay()
+        if viewModel?.isPlaying == true {
+            viewModel?.stopPlay()
+        } else {
+            viewModel?.startPlay()
+        }
+    }
+
+    var scrollToRow: Int = 0
+    func showNext() {
+        scrollToRow += 1
+        guard scrollToRow < viewHolder.collectionView.numberOfItems(inSection: 0) else { return }
+        viewHolder.collectionView.scrollToItem(at: IndexPath(row: scrollToRow, section: 0),
+                                               at: .top,
+                                               animated: true)
     }
 }
 
@@ -101,6 +114,30 @@ extension ViewController {
                 self?.viewHolder.collectionView.reloadData()
             }
             .disposed(by: disposeBag)
+
+        viewModel.outputs.showNext
+            .subscribe(onNext: { [weak self] _ in
+                self?.showNext()
+            })
+            .disposed(by: disposeBag)
+        viewModel.inputs.startPlay
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: false)
+            .drive(onNext: { [weak self] start in
+                guard let self = self else { return }
+                let button: UIBarButtonItem
+                if start {
+                    button = UIBarButtonItem(barButtonSystemItem: .pause,
+                                    target: self,
+                                    action: #selector(self.clickPlay(_:)))
+                } else {
+                    button = UIBarButtonItem(barButtonSystemItem: .play,
+                                             target: self,
+                                             action: #selector(self.clickPlay(_:)))
+                }
+                self.navigationItem.setRightBarButton(button, animated: true)
+            })
+            .disposed(by: disposeBag)
     }
 
 }
@@ -135,4 +172,22 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 
     }
 
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+        if indexPath.row + 1 == collectionView.numberOfItems(inSection: 0) {
+            viewModel?.inputs.requestNextWithCount.accept(10)
+        }
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        scrollToRow = viewHolder.collectionView.indexPathsForVisibleItems.first?.row ?? 0
+        viewModel?.stopPlay()
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard decelerate == false else { return }
+        scrollToRow = viewHolder.collectionView.indexPathsForVisibleItems.first?.row ?? 0
+        viewModel?.stopPlay()
+    }
 }
